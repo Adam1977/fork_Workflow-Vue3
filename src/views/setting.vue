@@ -21,6 +21,7 @@
           <div class="zoom-in" :class="nowVal == 300 && 'disabled'" @click="zoomSize(2)"></div>
         </div>
         <div class="box-scale" :style="`transform: scale(${ nowVal / 100});`">
+          <!-- 流程图 -->
           <nodeWrap v-model:nodeConfig="nodeConfig" v-model:flowPermission="flowPermission" />
           <div class="end-node">
             <div class="end-node-circle"></div>
@@ -29,10 +30,15 @@
         </div>
       </section>
     </div>
+    <!-- 当前无法发布 -->
     <errorDialog v-model:visible="tipVisible" :list="tipList" />
+    <!-- 发起人 -->
     <promoterDrawer />
+    <!-- 审批人 -->
     <approverDrawer :directorMaxLevel="directorMaxLevel" />
+    <!-- 抄送人 -->
     <copyerDrawer />
+    <!-- 条件 -->
     <conditionDrawer />
   </div>
 </template>
@@ -114,7 +120,8 @@ const saveSet = async () => {
   }
   processConfig.value.flowPermission = flowPermission.value;
   // eslint-disable-next-line no-console
-  console.log(JSON.stringify(processConfig.value));
+  // console.log(JSON.stringify(processConfig.value));
+  console.log(processConfig.value);
   let res = await setWorkFlowData(processConfig.value);
   if (res.code == 200) {
     ElMessage.success("设置成功")
